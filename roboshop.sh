@@ -44,7 +44,7 @@ do
             {
             "Action": "UPSERT",
             "ResourceRecordSet": {
-                "Name": "'$RECORD_NAME'",
+                "Name": "$RECORD_NAME",
                 "Type": "A",
                 "TTL": 1,
                 "ResourceRecords": [
@@ -58,7 +58,7 @@ do
     }  
     ]
     "
-    
+
     
     echo "Record updated for $instance"
 
