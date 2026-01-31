@@ -5,7 +5,6 @@ AMI_ID="ami-0220d79f3f480ecf5"
 ZONE_ID="Z0996154EJGGPGBA9M2V"
 DOMAIN_NAME="daws88s.store"
 
-
 for instance in $@
 do
     instance_id=$( aws ec2 run-instances \ 
