@@ -8,7 +8,7 @@ DOMAIN_NAME="daws88s.store"
 
 for instance in $@
 do
-    instance_id=$ (aws ec2 run-instances \ 
+    instance_id=$( aws ec2 run-instances \ 
     --image-id $AMI_ID \
     --instance-type "t3.micro" \
     --security-groups-ids $SG_ID \
