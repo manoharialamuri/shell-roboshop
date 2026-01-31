@@ -15,18 +15,19 @@ do
     --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" \
     --query 'Instances[0].InstanceId' \
     --output text )
+    
     if [ $instance == "frontend" ]; then
-        IPs=$(
+        IP=$(
             aws ec2 describe-instances \
-            --instance-ids $instance \
+            --instance-ids $instance_id \
             --query 'Reservations[].Instances[].PublicIpAddress' \
             --output text
         )
         RECORD_NAME="$DOMAIN_NAME"
     else
-        IPs=$(
+        IP=$(
             aws ec2 describe-instances \
-            --instance-ids $instance \
+            --instance-ids $instance_id \
             --query 'Reservations[].Instances[].PrivateIpAddress' \
             --output text
         )
@@ -44,11 +45,13 @@ do
             {
             "Action": "UPSERT",
             "ResourceRecordSet": {
-                "Name": "$RECORD_NAME",
+                "Name": "'$RECORD_NAME'",
                 "Type": "A",
                 "TTL": 1,
                 "ResourceRecords": [
-                { "Value": "$IP" }
+                { 
+                    "Value": "$IP" 
+                }
                 ]
             }
             }
@@ -57,7 +60,6 @@ do
 
     '
     
-
     echo "Record updated for $instance"
 
 done
