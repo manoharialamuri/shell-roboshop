@@ -10,6 +10,7 @@ Y="\e[33m"
 B="\e[34m"
 N="\e[0m"
 SCRIPT_DIR=$PWD
+MONGO_HOST=mongodb.daws88s.store
 
 
 if [ $USERID -ne 0 ]; then
@@ -70,5 +71,14 @@ systemctl daemon-reload
 systemctl enable catalogue 
 systemctl start catalogue
 validate $? "enabling & Starting catalogue"
+
+cp $SCRIPT_DIR/mongodb.repo /etc/yum.repos.d/mongo.repo
+validate $? "copying mongo repo
+
+dnf install mongodb-mongosh -y
+validate $? "installing mongo client"
+
+mongosh --host $MONGO_HOST </app/db/master-data.js
+
 
 
