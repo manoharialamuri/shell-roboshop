@@ -47,6 +47,21 @@ fi
 mkdir -p /app 
 validate $? "Creating app directory"
 
-curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
+curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>> $LOGS_FILE
 validate $? "Downloading catalogue file"
+
+cd /app
+validate $? "moving to app directory"
+
+rm -rf /app/*
+validate $? "removing existing code"
+
+unzip /tmp/catalogue.zip &>> $LOGS_FILE
+validate $? "unzipping catalogue file"
+
+systemctl daemon-reload
+systemctl enable catalogue 
+systemctl start catalogue
+validate $? "enabling & Starting catalogue"
+
 
