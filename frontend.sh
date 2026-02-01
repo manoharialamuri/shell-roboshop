@@ -48,7 +48,7 @@ unzip /tmp/frontend.zip
 validate $? "unzipping frontend code"
 touch /etc/nginx/nginx.conf
 validate $? "creating backend config file"
-cp nginx.config /etc/nginx/nginx.conf
+cp html.config /etc/nginx/nginx.conf
 validate $? "copying nginx content"
 systemctl restart nginx 
 validate $? "restarting nginx"
