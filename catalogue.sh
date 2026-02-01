@@ -73,8 +73,9 @@ systemctl start catalogue
 validate $? "enabling & Starting catalogue"
 
 cp $SCRIPT_DIR/mongodb.repo /etc/yum.repos.d/mongo.repo
-validate $? "copying mongo repo
+validate $? "copying mongo repo"
 
 dnf install mongodb-mongosh -y
+validate $? "Installinh mongosh"
 
 mongosh --host $MONGO_HOST </app/db/master-data.js
