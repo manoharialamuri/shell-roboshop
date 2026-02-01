@@ -9,7 +9,7 @@ G="\e[32m"
 Y="\e[33m"
 B="\e[34m"
 N="\e[0m"
-#SCRIPT_DIR=$PWD
+SCRIPT_DIR=$PWD
 #MONGO_HOST=mongodb.daws88s.store
 
 
@@ -48,10 +48,11 @@ unzip /tmp/frontend.zip
 validate $? "unzipping frontend code"
 cd ..
 validate $? "moving one directory"
-cp html.config /etc/nginx/nginx.conf
+cp $SCRIPT_DIR/html.config /etc/nginx/nginx.conf
 validate $? "copying nginx content"
 systemctl restart nginx 
 validate $? "restarting nginx"
+
 
 
 
