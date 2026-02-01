@@ -78,4 +78,18 @@ validate $? "copying mongo repo"
 dnf install mongodb-mongosh -y
 validate $? "Installinh mongosh"
 
-mongosh --host $MONGO_HOST </app/db/master-data.js
+INDEX=$(mongosh --host $MONGO_HOST --quiet --eval 'db.getMongo().getDBNames().indexof("catalogue")')
+if [ $INDEX -lt 0 ]; then
+    mongosh --host $MONGO_HOST </app/db/master-data.js
+    validate $? "products loading"
+else
+    echo -e "products already loaded...$Y Skipping $N"
+fi
+
+systemctl restart catalogue
+validate $? "Restarting catalogue"
+
+systemctl status catalogue
+validate $? "system is running fine"
+
+
