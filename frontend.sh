@@ -46,8 +46,6 @@ cd /usr/share/nginx/html
 validate $? "moving to html directory"
 unzip /tmp/frontend.zip
 validate $? "unzipping frontend code"
-cd ..
-validate $? "moving one directory"
 cp $SCRIPT_DIR/html.config /etc/nginx/nginx.conf
 validate $? "copying nginx content"
 systemctl restart nginx 
