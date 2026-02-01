@@ -27,13 +27,13 @@ validate(){
     fi
 }
 
-dnf module disable nodejs -y
+dnf module disable nodejs -y &>> $LOGS_FILE
 validate $? "Disabling nodejs default version"
 
-dnf module enable nodejs:20 -y
+dnf module enable nodejs:20 -y &>> $LOGS_FILE
 validate $? "Enabling nodejs version 20"
 
-dnf install nodejs -y
+dnf install nodejs -y &>> $LOGS_FILE
 validate $? "Installing nodejs"
 
 useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
@@ -45,18 +45,3 @@ validate $? "Creating app directory"
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
 validate $? "Downloading catalogue file"
 
-cd /app
-validate $? "moving to app directory"
-
-unzip /tmp/catalogue.zip
-validate $? "unzipping catalogue file"
-
-npm install 
-validate $? "Installing dependencies"
-
-cd catalogue.service /etc/systemd/system/catalogue.service
-validate $? "Copying systemctl file"
-
-systemctl daemon-reload
-systemctl enable catalogue 
-systemctl start catalogue
