@@ -76,10 +76,5 @@ cp $SCRIPT_DIR/mongodb.repo /etc/yum.repos.d/mongo.repo
 validate $? "copying mongo repo
 
 dnf install mongodb-mongosh -y
-validate $? "installing mongo client"
-
 
 mongosh --host $MONGO_HOST </app/db/master-data.js
-
-
-
