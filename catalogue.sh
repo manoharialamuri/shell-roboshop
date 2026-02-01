@@ -9,6 +9,7 @@ G="\e[32m"
 Y="\e[33m"
 B="\e[34m"
 N="\e[0m"
+SCRIPT_DIR=$pwd
 
 
 if [ $USERID -ne 0 ]; then
@@ -58,6 +59,12 @@ validate $? "removing existing code"
 
 unzip /tmp/catalogue.zip &>> $LOGS_FILE
 validate $? "unzipping catalogue file"
+
+npm install 
+validate $? "Installing dependencies"
+
+cd $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
+validate $? "Copying systemctl file"
 
 systemctl daemon-reload
 systemctl enable catalogue 
