@@ -1,0 +1,62 @@
+#!/bin/bash
+
+USERID=$(id -u)
+
+LOGS_FOLDER="/var/log/shell-roboshop"
+LOGS_FILE="$LOGS_FOLDER/$0.log"
+R="\e[31m"
+G="\e[32m"
+Y="\e[33m"
+B="\e[34m"
+N="\e[0m"
+
+
+if [ $USERID -ne 0 ]; then
+    echo "Please use root access" | tee -a $LOGS_FILE
+    exit 12
+fi
+
+mkdir -p $LOGS_FOLDER
+
+validate(){
+    if [ $1 -ne 0 ]; then
+        echo "$2... Failed" | tee -a $LOGS_FILE
+        exit 30
+    else
+        echo "$2.. Success" | tee -a $LOGS_FILE
+    fi
+}
+
+dnf module disable nodejs -y
+validate $? "Disabling nodejs default version"
+
+dnf module enable nodejs:20 -y
+validate $? "Enabling nodejs version 20"
+
+dnf install nodejs -y
+validate $? "Installing nodejs"
+
+useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+validate $? "Creating system user"
+
+mkdir /app 
+validate $? "Creating app directory"
+
+curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
+validate $? "Downloading catalogue file"
+
+cd /app
+validate $? "moving to app directory"
+
+unzip /tmp/catalogue.zip
+validate $? "unzipping catalogue file"
+
+npm install 
+validate $? "Installing dependencies"
+
+cd catalogue.service /etc/systemd/system/catalogue.service
+validate $? "Copying systemctl file"
+
+systemctl daemon-reload
+systemctl enable catalogue 
+systemctl start catalogue
