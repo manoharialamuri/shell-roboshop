@@ -46,3 +46,11 @@ cd /usr/share/nginx/html
 validate $? "moving to html directory"
 unzip /tmp/frontend.zip
 validate $? "unzipping frontend code"
+touch /etc/nginx/nginx.conf
+validate $? "creating backend config file"
+cp $SCRIPT_DIR/nginxconfig /etc/nginx/nginx.conf
+validate $? "copying nginx content"
+systemctl restart nginx 
+validate $? "restarting nginx"
+
+
