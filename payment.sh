@@ -43,7 +43,7 @@ validate $? "creating app"
 curl -L -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip
 validate $? "downloading code"
 cd /app
-validate "moving to app"
+validate $? "moving to app"
 rm -rf /app/*
 validate $? "removing previous content"
 unzip /tmp/payment.zip
@@ -56,5 +56,5 @@ systemctl daemon-reload
 validate $? "reloading"
 systemctl enable payment 
 systemctl start payment
-validate &? "enable and start"
+validate $? "enable and start"
 
