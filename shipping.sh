@@ -45,6 +45,8 @@ curl -L -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shippin
 validate $? "downloading code"
 cd /app &>> $LOGS_FILE
 validate $? "moving to app"
+rm -rf /app/*
+validate $? "Removing existing code"
 unzip /tmp/shipping.zip &>> $LOGS_FILE
 validate $? "unzipping"
 mvn clean package &>> $LOGS_FILE
@@ -60,11 +62,15 @@ systemctl start shipping
 validate $? "Enable and start"
 dnf install mysql -y 
 validate $? "installing mysql"
-
-mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/schema.sql
-mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/app-user.sql 
-mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/master-data.sql
-validate $? "loading schemas"
+mysql -h $MYSQL_HOST -uroot -pRoboShop@1 -e 'use cities'
+if [ $? -lt 0 ]; then
+    mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/schema.sql
+    mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/app-user.sql 
+    mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/master-data.sql
+    validate $? "loading schemas"
+else
+    echo -e "Schemas already loaded... $Y Skipping $N"
+fi
 systemctl restart shipping
 validate $? "restarting"
 
