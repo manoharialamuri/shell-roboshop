@@ -9,7 +9,7 @@ G="\e[32m"
 Y="\e[33m"
 B="\e[34m"
 N="\e[0m"
-SCRIPT_DIR=$0
+SCRIPT_DIR=$PWD
 #MONGO_HOST=mongodb.daws88s.store
 
 
@@ -46,7 +46,7 @@ cd /usr/share/nginx/html
 validate $? "moving to html directory"
 unzip /tmp/frontend.zip
 validate $? "unzipping frontend code"
-cp $SCRIPT_DIR/ngix.config /etc/nginx/nginx.conf
+cp $SCRIPT_DIR/nginx.config /etc/nginx/nginx.conf
 validate $? "copying nginx content"
 systemctl restart nginx 
 validate $? "restarting nginx"
