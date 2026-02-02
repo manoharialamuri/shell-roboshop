@@ -42,7 +42,7 @@ else
 fi
 mkdir -p /app
 validate $? "Creating directory"
-rm -rf /tmp/user.zip
+rm -rf /tmp/user.zip/*
 validate $? "removing previous content"
 curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip &>> $LOGS_FILE
 validate $? "downloading code"
