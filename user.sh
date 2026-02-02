@@ -46,6 +46,8 @@ curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
 validate $? "downloading code"
 cd /app 
 validate $? "moving to app directory"
+rm -rf /tmp/user.zip
+validate $? "removing previous content"
 unzip /tmp/user.zip &>> $LOGS_FILE
 validate $? "unzipping the code"
 npm install &>> $LOGS_FILE
