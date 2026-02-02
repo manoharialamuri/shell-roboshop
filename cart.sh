@@ -31,7 +31,7 @@ validate(){
 
 dnf module enable nodejs:20 -y
 validate $? "enabling nodejs-20"
-dnf install nodejs -y
+dnf install nodejs -y &>> $LOGS_FILE
 validate $? "installing nodejs"
 id roboshop
 if [ $? -ne 0 ]; then
@@ -42,18 +42,18 @@ else
 fi
 mkdir -p /app
 validate $? "Creating directory" 
-curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip &>> $LOGS_FILE
+curl -L -o /tmp/cart.zip https://roboshop-artifacts.s3.amazonaws.com/cart-v3.zip &>> $LOGS_FILE
 validate $? "downloading code"
 cd /app 
 validate $? "moving to app directory"
-unzip /tmp/user.zip &>> $LOGS_FILE
+unzip /tmp/cart.zip &>> $LOGS_FILE
 validate $? "unzipping the code"
 npm install &>> $LOGS_FILE
-validate $? "Installing dependencies"
-cp $SCRIPT_DIR/user.service /etc/systemd/system/user.service
+validate $? "installing dependencies"
+cp $SCRIPT_DIR/cart.service /etc/systemd/system/cart.service
 validate $? "copying systemctl service"
 systemctl daemon-reload
-validate $? "Reloading"
-systemctl enable user &>> $LOGS_FILE
-systemctl start user
-validate $? "Enabling and starting"
+validate $? "reloaded"
+systemctl enable cart &>> $LOGS_FILE
+systemctl start cart
+validate $? "Enable and start cart"
