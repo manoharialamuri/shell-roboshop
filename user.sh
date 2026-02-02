@@ -42,12 +42,12 @@ else
 fi
 mkdir -p /app
 validate $? "Creating directory"
-rm -rf /tmp/user.zip/*
-validate $? "removing previous content"
 curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip &>> $LOGS_FILE
 validate $? "downloading code"
 cd /app 
 validate $? "moving to app directory"
+rm -rf /app/*
+validate $? "removing existing code"
 unzip /tmp/user.zip &>> $LOGS_FILE
 validate $? "unzipping the code"
 npm install &>> $LOGS_FILE

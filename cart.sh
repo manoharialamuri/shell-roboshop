@@ -46,6 +46,8 @@ curl -L -o /tmp/cart.zip https://roboshop-artifacts.s3.amazonaws.com/cart-v3.zip
 validate $? "downloading code"
 cd /app 
 validate $? "moving to app directory"
+rm -rf /app/*
+validate $? "removing existing code"
 unzip /tmp/cart.zip &>> $LOGS_FILE
 validate $? "unzipping the code"
 npm install &>> $LOGS_FILE
