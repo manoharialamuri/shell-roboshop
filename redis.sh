@@ -37,6 +37,9 @@ sed -i 's/protected-mode yes/protected-mode no/g' /etc/redis/redis.conf &>> $LOG
 validate $? "Disabling protected mode"
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/redis/redis.conf &>> $LOGS_FILE
 validate $? "Updating redis bind address"
+systemctl daemon-reload
+validate $? "reloaded"
 systemctl enable redis &>> $LOGS_FILE
 systemctl start redis &>> $LOGS_FILE
 validate $? "Enabling and starting redis" 
+
