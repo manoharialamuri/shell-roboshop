@@ -11,6 +11,7 @@ B="\e[34m"
 N="\e[0m"
 SCRIPT_DIR=$PWD
 MONGO_HOST=mongodb.daws88s.store
+MYSQL_HOST=mysql.daws88s.store
 
 
 if [ $USERID -ne 0 ]; then
@@ -59,9 +60,10 @@ systemctl start shipping
 validate $? "Enable and start"
 dnf install mysql -y 
 validate $? "installing mysql"
-mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -pRoboShop@1 < /app/db/schema.sql
-mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -pRoboShop@1 < /app/db/app-user.sql 
-mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -pRoboShop@1 < /app/db/master-data.sql
+
+mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/schema.sql
+mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/app-user.sql 
+mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/master-data.sql
 validate $? "loading schemas"
 systemctl restart shipping
 validate $? "restarting"
