@@ -62,6 +62,8 @@ systemctl start shipping
 validate $? "Enable and start"
 dnf install mysql -y 
 validate $? "installing mysql"
+rm -rf /app/*
+validate $? "removing old content"
 mysql -h $MYSQL_HOST -uroot -pRoboShop@1 -e 'use cities'
 if [ $? -ne 0 ]; then
     mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/schema.sql
