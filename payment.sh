@@ -55,3 +55,4 @@ validate $? "reloading"
 systemctl enable payment 
 systemctl start payment
 validate &? "enable and start"
+
