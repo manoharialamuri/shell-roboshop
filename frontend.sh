@@ -46,7 +46,7 @@ cd /usr/share/nginx/html
 validate $? "moving to html directory"
 unzip /tmp/frontend.zip
 validate $? "unzipping frontend code"
-cp /etc/nginx/nginx.conf /home/ec2-user/shell-roboshop/html.config
+cp $SCRIPT_DIR/ngix.config /etc/nginx/nginx.conf
 validate $? "copying nginx content"
 systemctl restart nginx 
 validate $? "restarting nginx"
