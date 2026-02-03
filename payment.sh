@@ -40,7 +40,7 @@ else
 fi
 mkdir -p /app
 validate $? "creating app"
-curl -L -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip
+curl -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip
 validate $? "downloading code"
 cd /app
 validate $? "moving to app"
@@ -48,6 +48,7 @@ rm -rf /app/*
 validate $? "removing previous content"
 unzip /tmp/payment.zip
 validate $? "unzipping"
+cd /app
 pip3 install -r requirements.txt
 validate $? "installing requirements file"
 cp $SCRIPT_DIR/payment.service /etc/systemd/system/payment.service

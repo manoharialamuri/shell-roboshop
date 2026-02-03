@@ -33,10 +33,8 @@ dnf module enable redis:7 -y &>> $LOGS_FILE
 validate $? "Enabling redis 7"
 dnf install redis -y | tee -a $LOGS_FILE
 validate $? "Installing redis"
-sed -i 's/protected-mode yes/protected-mode no/g' /etc/redis/redis.conf &>> $LOGS_FILE
-validate $? "Disabling protected mode"
-sed -i 's/127.0.0.1/0.0.0.0/g' /etc/redis/redis.conf &>> $LOGS_FILE
-validate $? "Updating redis bind address"
+sed -i -e 's/127.0.0.1/0.0.0.0/g' -e '/protected-mode/ c protected-mode no' /etc/redis/redis.conf
+validate $? "Allowing remote connections
 systemctl daemon-reload
 validate $? "reloaded"
 systemctl enable redis &>> $LOGS_FILE
