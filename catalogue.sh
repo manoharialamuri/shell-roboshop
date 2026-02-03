@@ -10,7 +10,7 @@ Y="\e[33m"
 B="\e[34m"
 N="\e[0m"
 SCRIPT_DIR=$PWD
-MONGO_HOST=mongodb.daws88s.store
+MONGODB_HOST=mongodb.daws88s.store
 
 
 if [ $USERID -ne 0 ]; then
@@ -78,9 +78,9 @@ validate $? "copying mongo repo"
 dnf install mongodb-mongosh -y
 validate $? "Installinh mongosh"
 
-INDEX=$(mongosh --host $MONGO_HOST --quiet --eval 'db.getMongo().getDBNames().indexof("catalogue")')
+INDEX=$(mongosh --host $MONGODB_HOST --quiet --eval 'db.getMongo().getDBNames().indexof("catalogue")')
 if [ $INDEX -le 0 ]; then
-    mongosh --host $MONGO_HOST </app/db/master-data.js
+    mongosh --host $MONGODB_HOST </app/db/master-data.js
     validate $? "products loading"
 else
     echo -e "products already loaded...$Y Skipping $N"
